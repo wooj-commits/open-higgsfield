@@ -1,0 +1,141 @@
+.ohf-signin {
+  --bg: #070708;
+  --tx: #f4f1ea;
+  --tx2: #b7b3a8;
+  --accent: #d1fe17;
+  --accent-ink: #141a02;
+  --font-ui: var(--font-ohf-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-ohf-display), ui-serif, Georgia, serif;
+  min-height: 100dvh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 48px 24px;
+  background: var(--bg);
+  color: var(--tx);
+  font-family: var(--font-ui);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow: hidden;
+}
+
+.ohf-signin-glow {
+  position: absolute;
+  inset: -20% 0 auto;
+  height: 70%;
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(209, 254, 23, 0.14), transparent 62%),
+    radial-gradient(40% 40% at 80% 30%, rgba(90, 140, 255, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.ohf-signin-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+.ohf-signin-main {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 560px);
+  text-align: center;
+}
+
+.ohf-signin-kicker {
+  margin: 0 0 18px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ohf-signin-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(48px, 10vw, 88px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+}
+
+.ohf-signin-lede {
+  margin: 18px auto 36px;
+  max-width: 38ch;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--tx2);
+}
+
+.ohf-signin-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  text-align: left;
+  background: rgba(16, 17, 18, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+}
+
+.ohf-signin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+  color: var(--tx2);
+}
+
+.ohf-signin-field input {
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--tx);
+  font: inherit;
+  font-size: 15px;
+}
+
+.ohf-signin-field input:focus {
+  outline: 2px solid rgba(209, 254, 23, 0.35);
+  outline-offset: 1px;
+}
+
+.ohf-signin-submit {
+  margin-top: 6px;
+  height: 48px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.ohf-signin-submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.ohf-signin-alert {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 141, 120, 0.1);
+  border: 1px solid rgba(255, 141, 120, 0.28);
+  color: #ffb4a6;
+  font-size: 13px;
+  line-height: 1.45;
+}
