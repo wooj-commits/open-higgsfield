@@ -1,0 +1,22 @@
+# Replica counts must match OlaresManifest.yaml workloadReplicas.
+workloads:
+  openhiggsfield:
+    replicaCount: 1
+
+image:
+  repository: ghcr.io/wooj-commits/open-higgsfield
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+# Placeholders for helm lint / local template rendering.
+# At install, Olares overwrites domain.<entrance> and olaresEnv.* and does not
+# use these committed values. Never put real credentials here.
+domain:
+  openhiggsfield: openhiggsfield.example.olares.com
+
+olaresEnv:
+  AUTH_SECRET: ""
+  AUTH_USERNAME: ""
+  AUTH_PASSWORD: ""
+  HF_API_BASE_URL: ""
+  HF_API_KEY: ""
