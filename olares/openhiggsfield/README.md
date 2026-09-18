@@ -5,6 +5,7 @@ This chart installs the **Next.js studio** already in this repository onto Olare
 | | |
 | --- | --- |
 | Chart path | `olares/openhiggsfield` |
+| Chart / Market version | `0.1.1` |
 | Image | `ghcr.io/wooj-commits/open-higgsfield:0.1.0` |
 | Container port | `3000` |
 | Health | `GET /api/health` |
@@ -40,7 +41,7 @@ Change an env after install in Settings; `applyOnChange: true` restarts the work
 ```bash
 olares-cli chart lint ./olares/openhiggsfield
 olares-cli chart package ./olares/openhiggsfield
-olares-cli market upload openhiggsfield-0.1.0.tgz
+olares-cli market upload openhiggsfield-0.1.1.tgz
 olares-cli market install -s upload --watch
 ```
 

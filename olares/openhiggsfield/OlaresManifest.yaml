@@ -10,7 +10,7 @@ metadata:
   title: Open Higgsfield
   description: Private image and video studio for Woojin Cho (ThinkerMaker).
   icon: https://app.cdn.olares.com/appstore/default/defaulticon.webp
-  version: 0.1.0
+  version: 0.1.1
   categories:
     - Creativity
     - AI
@@ -26,7 +26,7 @@ entrances:
     openMethod: window
 
 spec:
-  versionName: '0.1.0'
+  versionName: '0.1.1'
   featuredImage: https://app.cdn.olares.com/appstore/default/defaulticon.webp
   promoteImage:
     - https://app.cdn.olares.com/appstore/default/defaulticon.webp
@@ -40,14 +40,21 @@ spec:
     AUTH_USERNAME / AUTH_PASSWORD session before Generate can spend the
     platform key.
 
-    Container port 3000. Health path GET /api/health. Image uid 1001 (the
-    existing Dockerfile USER nextjs). No userspace volume mounts.
+    Container port 3000. Health path GET /api/health. The studio container
+    still runs as uid 1001 (the existing Dockerfile USER nextjs). Pod-level
+    runAsNonRoot is left unset so Olares can inject its entrance sidecar
+    inits. No userspace volume mounts.
 
     Supply AUTH_SECRET, AUTH_USERNAME, AUTH_PASSWORD, HF_API_BASE_URL, and
     HF_API_KEY at install. They are never baked into the image.
   upgradeDescription: |
-    First Olares chart for the Next.js studio. Image
-    ghcr.io/wooj-commits/open-higgsfield:0.1.0.
+    0.1.1 lets the private entrance finish startup on a single NVIDIA Olares
+    node. 0.1.0 sat at Init:1/3 then Unschedulable because
+    automountServiceAccountToken: false hid the service-account token that
+    render-envoy-config waits for, and the pod securityContext ran as 1001
+    which blocked the root sidecar-init. Same image
+    ghcr.io/wooj-commits/open-higgsfield:0.1.0. CPU-only resource envelope
+    matches Nextcloud/n8n (flat spec.requiredCpu, not spec.accelerator).
   developer: Woojin Cho
   website: https://github.com/wooj-commits/open-higgsfield
   sourceCode: https://github.com/wooj-commits/open-higgsfield
@@ -58,14 +65,12 @@ spec:
   supportArch:
     - amd64
     - arm64
-  accelerator:
-    - mode: cpu
-      requiredCpu: "0.1"
-      limitedCpu: "1"
-      requiredMemory: 256Mi
-      limitedMemory: 1Gi
-      requiredDisk: 128Mi
-      limitedDisk: 512Mi
+  requiredCpu: "0.1"
+  limitedCpu: "1"
+  requiredMemory: 256Mi
+  limitedMemory: 1Gi
+  requiredDisk: 128Mi
+  limitedDisk: 512Mi
 
 options:
   apiTimeout: 0
