@@ -10,7 +10,14 @@ import {
 } from "@/generation/device";
 import { applySecurityHeaders } from "@/security/headers";
 
-const PUBLIC_EXACT = new Set(["/sign-in", "/api/health", "/api/auth/login", "/robots.txt", "/sitemap.xml"]);
+const PUBLIC_EXACT = new Set([
+  "/sign-in",
+  "/api/health",
+  "/api/auth/login",
+  "/robots.txt",
+  "/sitemap.xml",
+  "/manifest.webmanifest",
+]);
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_EXACT.has(pathname)) return true;

@@ -1,8 +1,12 @@
+import { cookieSecure } from "@/security/cookies";
+
 export const DEVICE_COOKIE = "ohf_device";
 
 export const DEVICE_COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+  get secure() {
+    return cookieSecure();
+  },
   sameSite: "lax" as const,
   path: "/",
   maxAge: 60 * 60 * 24 * 400,

@@ -26,11 +26,13 @@ export const SECURITY_HEADERS: Array<{ key: string; value: string }> = [
   },
 ];
 
+import { cookieSecure } from "./cookies";
+
 export function applySecurityHeaders(headers: Headers): void {
   for (const { key, value } of SECURITY_HEADERS) {
     headers.set(key, value);
   }
-  if (process.env.NODE_ENV === "production") {
+  if (cookieSecure()) {
     headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains");
   }
 }

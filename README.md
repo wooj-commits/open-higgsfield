@@ -75,6 +75,7 @@ Nothing secret belongs in the image or in git. Config is env-only. `.env.example
 | `OPEN_HIGGSFIELD_READ_WRITE_TOKEN` | No | Uploads go to local disk (`UPLOAD_DIR`) instead of Vercel Blob. |
 | `PUBLIC_ORIGIN` | No* | Built URL for local uploads. *Required for image-to-video / references when Blob is not used, so the generation API can fetch files. |
 | `NEXT_PUBLIC_SITE_URL` | No | Metadata origin. Falls back to `http://localhost:3000`. |
+| `AUTH_COOKIE_SECURE` | No | `1` = always Secure cookies. `0` = allow HTTP. If unset, https `PUBLIC_ORIGIN` is Secure and http is not. |
 | `TRUST_PROXY` | No | Set `1` behind a reverse proxy so `X-Forwarded-For` / `X-Forwarded-Proto` are trusted. |
 | `UPLOAD_DIR` | No | Defaults to `/tmp/open-higgsfield-uploads`. Ephemeral on containers. |
 | `PORT` | No (container) | Defaults to `3000`. |

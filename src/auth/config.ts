@@ -35,9 +35,13 @@ export function authIsConfigured(): boolean {
   return !("missing" in readAuthConfig());
 }
 
+import { cookieSecure } from "@/security/cookies";
+
 export const SESSION_COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+  get secure() {
+    return cookieSecure();
+  },
   sameSite: "lax" as const,
   path: "/",
 };
