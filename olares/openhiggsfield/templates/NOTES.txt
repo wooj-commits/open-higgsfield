@@ -1,0 +1,13 @@
+1. After this chart is merged to main, wait for GitHub Actions to publish
+   ghcr.io/wooj-commits/open-higgsfield:0.1.0 and confirm the GHCR package is
+   Public (anonymous pull; no cluster imagePullSecret).
+2. On the Olares node:
+     olares-cli chart lint ./olares/openhiggsfield
+     olares-cli chart package ./olares/openhiggsfield
+     olares-cli market upload openhiggsfield-0.1.0.tgz
+     olares-cli market install -s upload --watch
+3. At install, enter AUTH_SECRET, AUTH_USERNAME, AUTH_PASSWORD,
+   HF_API_BASE_URL, and HF_API_KEY. Olares injects them as .Values.olaresEnv.*
+   into Secret openhiggsfield, then into the container via envFrom.
+4. Open the Desktop entrance while signed in as the Olares account. The
+   entrance is private. Then sign in to the studio itself.

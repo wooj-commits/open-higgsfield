@@ -121,6 +121,39 @@ The filesystem is ephemeral. Uploads without Blob vanish on restart. Generation 
 
 ---
 
+## Olares 1.12.6 (custom app)
+
+The signed-in entrance is the Next.js studio in this repo — not a CUDA image and not the Python Higgsfield CLI.
+
+| | |
+| --- | --- |
+| Chart | `olares/openhiggsfield` |
+| Image | `ghcr.io/wooj-commits/open-higgsfield:0.1.0` |
+| Port | `3000` |
+| Health | `GET /api/health` |
+| Entrance | `authLevel: private` — the Olares account must be signed in; this is not an anonymous public URL |
+
+`.github/workflows/publish-image.yml` runs on `main`, builds the existing non-root `Dockerfile` (`USER nextjs`, uid 1001) for `linux/amd64` and `linux/arm64`, and publishes that tag to GHCR. **No secrets are baked into the image.** The chart has no `imagePullSecret`. Olares pulls anonymously, so the GHCR package must be **Public**. After the first publish, if Actions cannot flip visibility, set it in GitHub → Packages. A private registry would need a cluster pull secret this node does not have.
+
+### How the five runtime env vars reach the app
+
+They are never committed. At install, `OlaresManifest.yaml` `envs[]` prompts for `AUTH_SECRET`, `AUTH_USERNAME`, `AUTH_PASSWORD`, `HF_API_BASE_URL`, and `HF_API_KEY`. Olares injects those values as Helm `.Values.olaresEnv.*`. `olares/openhiggsfield/templates/secret.yaml` writes them into Kubernetes Secret `openhiggsfield`. The Deployment loads that Secret with `envFrom.secretRef`, so `process.env` in the running studio has those names. The chart also sets `TRUST_PROXY=1` and `PUBLIC_ORIGIN=https://<entrance host>` from `.Values.domain.openhiggsfield`.
+
+The private Olares entrance is extra. After the Olares account opens the window, the studio still requires its own `AUTH_USERNAME` / `AUTH_PASSWORD` session before Generate can spend `HF_API_KEY`.
+
+### Install on the node (not done from this repository)
+
+```bash
+olares-cli chart lint ./olares/openhiggsfield
+olares-cli chart package ./olares/openhiggsfield
+olares-cli market upload openhiggsfield-0.1.0.tgz
+olares-cli market install -s upload --watch
+```
+
+More detail: `olares/openhiggsfield/README.md`.
+
+---
+
 ## Auth and safety
 
 - Sign-in at `/sign-in`. Session cookie `ohf_session` is httpOnly, `SameSite=Lax`, `Secure` in production.

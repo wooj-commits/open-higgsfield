@@ -1,0 +1,111 @@
+olaresManifest.version: '0.12.0'
+olaresManifest.type: app
+apiVersion: 'v3'
+
+workloadReplicas:
+  openhiggsfield: 1
+
+metadata:
+  name: openhiggsfield
+  title: Open Higgsfield
+  description: Private image and video studio for Woojin Cho (ThinkerMaker).
+  icon: https://app.cdn.olares.com/appstore/default/defaulticon.webp
+  version: 0.1.0
+  categories:
+    - Creativity
+    - AI
+    - Utilities_v112
+
+entrances:
+  - name: openhiggsfield
+    host: openhiggsfield
+    port: 3000
+    title: Open Higgsfield
+    icon: https://app.cdn.olares.com/appstore/default/defaulticon.webp
+    authLevel: private
+    openMethod: window
+
+spec:
+  versionName: '0.1.0'
+  featuredImage: https://app.cdn.olares.com/appstore/default/defaulticon.webp
+  promoteImage:
+    - https://app.cdn.olares.com/appstore/default/defaulticon.webp
+  fullDescription: |
+    Open Higgsfield is the private Next.js image-and-video studio already in this
+    repository. This chart runs that studio — not a CUDA image and not the
+    Python Higgsfield CLI.
+
+    The Desktop entrance is private: Olares account woojinc1205 must sign in
+    before the studio URL is reachable. The studio still requires its own
+    AUTH_USERNAME / AUTH_PASSWORD session before Generate can spend the
+    platform key.
+
+    Container port 3000. Health path GET /api/health. Image uid 1001 (the
+    existing Dockerfile USER nextjs). No userspace volume mounts.
+
+    Supply AUTH_SECRET, AUTH_USERNAME, AUTH_PASSWORD, HF_API_BASE_URL, and
+    HF_API_KEY at install. They are never baked into the image.
+  upgradeDescription: |
+    First Olares chart for the Next.js studio. Image
+    ghcr.io/wooj-commits/open-higgsfield:0.1.0.
+  developer: Woojin Cho
+  website: https://github.com/wooj-commits/open-higgsfield
+  sourceCode: https://github.com/wooj-commits/open-higgsfield
+  submitter: Woojin Cho
+  locale:
+    - en-US
+  doc: https://github.com/wooj-commits/open-higgsfield
+  supportArch:
+    - amd64
+    - arm64
+  accelerator:
+    - mode: cpu
+      requiredCpu: "0.1"
+      limitedCpu: "1"
+      requiredMemory: 256Mi
+      limitedMemory: 1Gi
+      requiredDisk: 128Mi
+      limitedDisk: 512Mi
+
+options:
+  apiTimeout: 0
+  dependencies:
+    - name: olares
+      type: system
+      version: '>=1.12.6-0'
+
+envs:
+  - envName: AUTH_SECRET
+    required: true
+    type: password
+    editable: true
+    applyOnChange: true
+    regex: '^.{32,}$'
+    description: Session signing secret. At least 32 characters. Generate with openssl rand -base64 48.
+  - envName: AUTH_USERNAME
+    required: true
+    type: string
+    editable: true
+    applyOnChange: true
+    regex: '^.+$'
+    description: Studio sign-in username. Separate from the Olares account that unlocks the private entrance.
+  - envName: AUTH_PASSWORD
+    required: true
+    type: password
+    editable: true
+    applyOnChange: true
+    regex: '^.{12,}$'
+    description: Studio sign-in password. At least 12 characters.
+  - envName: HF_API_BASE_URL
+    required: true
+    type: url
+    editable: true
+    applyOnChange: true
+    description: Generation platform origin, for example https://platform.higgsfield.ai
+  - envName: HF_API_KEY
+    required: true
+    type: password
+    editable: true
+    applyOnChange: true
+    regex: '^[^:]+:.+$'
+    description: Generation platform key in id:secret form. Never committed. Unauthenticated visitors cannot spend it.
